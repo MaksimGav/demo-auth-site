@@ -1,12 +1,18 @@
 const express = require("express");
+const path = require("path");
+
 const app = express();
 
 app.use(express.json());
 
+// віддаємо HTML
+app.use(express.static(__dirname));
+
 app.get("/", (req, res) => {
-  res.send("Server works");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
+// тестовий API
 app.post("/api/check-code", (req, res) => {
   const { code } = req.body;
   if (!code) {

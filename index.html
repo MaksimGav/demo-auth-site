@@ -2,214 +2,231 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
+<title>AutoWash — Самообслуговування</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoWash Self Service</title>
+
 <style>
-:root {
-  --bg-light: #f4f6fb;
-  --bg-dark: #0f172a;
-  --card-light: #fff;
-  --card-dark: #1e293b;
-  --text-light: #0f172a;
-  --text-dark: #f4f6fb;
-  --primary: #2563eb;
-  --accent: #22c55e;
-  --radius: 16px;
+:root{
+  --bg:#f6f8fc;
+  --card:#ffffff;
+  --primary:#2563eb;
+  --accent:#22c55e;
+  --text:#0f172a;
+  --muted:#64748b;
+  --radius:18px;
 }
 
-body {
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+
+body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background: var(--bg-light);
-  color: var(--text-light);
-  transition: background .4s, color .4s;
+  background:var(--bg);
+  color:var(--text);
 }
 
-header {
-  background: var(--primary);
-  color: white;
-  display:flex;
-  justify-content: space-between;
-  align-items:center;
-  padding:14px 20px;
-}
-
-header button {
-  background:none;
-  border:1px solid rgba(255,255,255,0.6);
-  border-radius:12px;
-  padding:6px 12px;
+header{
+  padding:16px 20px;
+  background:#0f172a;
   color:white;
-  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.container {
+header b{font-size:18px}
+header button{
+  background:none;
+  border:1px solid #334155;
+  color:white;
+  padding:6px 14px;
+  border-radius:12px;
+}
+
+.container{
   max-width:420px;
   margin:auto;
-  padding:16px;
+  padding:20px;
 }
 
-.card {
-  background: var(--card-light);
-  border-radius: var(--radius);
-  padding:18px;
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:20px;
   margin-bottom:16px;
-  box-shadow:0 12px 24px rgba(0,0,0,.08);
-  transition: background .4s, color .4s;
+  box-shadow:0 16px 32px rgba(0,0,0,.08);
+  animation:fade .35s ease;
 }
 
-h2 {margin:0 0 10px;}
-p {margin:0 0 8px; color: #64748b;}
-button.btn {
+h2{margin:0 0 10px}
+p{margin:0 0 8px;color:var(--muted);font-size:14px}
+
+.btn{
   width:100%;
   padding:14px;
-  border:none;
   border-radius:14px;
-  margin-top:8px;
-  font-size:15px;
-  cursor:pointer;
-  background: var(--primary);
+  border:none;
+  background:var(--primary);
   color:white;
-  transition:.3s;
+  font-size:15px;
+  margin-top:10px;
 }
-button.btn:hover{opacity:.9;}
-button.green{background:var(--accent);}
-.hidden{display:none;}
-.program{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid #e5e7eb;border-radius:14px;margin-bottom:10px;}
-.program span{font-size:14px;}
-.fade{animation:fadeIn .4s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.switch{margin-top:10px;text-align:center;cursor:pointer;font-size:14px;color:var(--primary);}
+
+.btn.green{background:var(--accent)}
+.btn.gray{background:#e5e7eb;color:#0f172a}
+
+.hidden{display:none}
+
+.package{
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.package b{display:block;margin-bottom:6px}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
 </style>
 </head>
+
 <body>
 
 <header>
   <b>🚗 AutoWash</b>
-  <div>
-    <button onclick="admin()">Admin</button>
-    <span class="switch" onclick="toggleTheme()">🌓 Тема</span>
-  </div>
+  <button onclick="openAdmin()">Admin</button>
 </header>
 
 <!-- HOME -->
-<div class="container fade" id="home">
+<div class="container" id="home">
   <div class="card">
     <h2>Автомийка самообслуговування</h2>
-    <p>Оберіть пост та почніть мийку</p>
-    <button class="btn" onclick="openPosts()">Почати</button>
+    <p>Швидко • Зручно • Без черг</p>
+    <button class="btn" onclick="openPackages()">Почати мийку</button>
   </div>
+
   <div class="card">
-    <h2>Тарифи</h2>
-    <p>💦 Вода — 10 грн / хв</p>
-    <p>🧼 Піна — 15 грн / хв</p>
-    <p>✨ Віск — 20 грн / хв</p>
+    <h2>Пакети мийки</h2>
+
+    <div class="package">
+      <b>💦 Basic — 50 грн</b>
+      <p>Вода • Піна • 5 хв</p>
+    </div>
+
+    <div class="package">
+      <b>🧼 Standard — 80 грн</b>
+      <p>Піна • Вода • Віск • 8 хв</p>
+    </div>
+
+    <div class="package">
+      <b>✨ Premium — 120 грн</b>
+      <p>Активна піна • Віск • Сушка • 12 хв</p>
+    </div>
   </div>
 </div>
 
-<!-- POSTS -->
-<div class="container hidden fade" id="posts">
+<!-- PACKAGES -->
+<div class="container hidden" id="packages">
   <div class="card">
-    <h2>Оберіть пост</h2>
-    <button class="btn" onclick="openWash(1)">Пост №1</button>
-    <button class="btn" onclick="openWash(2)">Пост №2</button>
-    <button class="btn" onclick="openWash(3)">Пост №3</button>
-    <button class="btn green" onclick="backHome()">Назад</button>
+    <h2>Оберіть пакет</h2>
+
+    <button class="btn" onclick="pay('Basic',50)">💦 Basic — 50 грн</button>
+    <button class="btn" onclick="pay('Standard',80)">🧼 Standard — 80 грн</button>
+    <button class="btn" onclick="pay('Premium',120)">✨ Premium — 120 грн</button>
+
+    <button class="btn gray" onclick="goHome()">Назад</button>
+  </div>
+</div>
+
+<!-- PAYMENT -->
+<div class="container hidden" id="payment">
+  <div class="card">
+    <h2>Оплата</h2>
+    <p id="paymentInfo"></p>
+
+    <button class="btn green" onclick="confirmPay()">Оплатити (симуляція)</button>
+    <button class="btn gray" onclick="goHome()">Скасувати</button>
   </div>
 </div>
 
 <!-- WASH -->
-<div class="container hidden fade" id="wash">
+<div class="container hidden" id="wash">
   <div class="card">
-    <h2 id="postTitle">Пост</h2>
-    <p>Оберіть програму</p>
-    <div class="program"><span>💦 Вода</span><button onclick="start('Вода')">▶</button></div>
-    <div class="program"><span>🧼 Активна піна</span><button onclick="start('Піна')">▶</button></div>
-    <div class="program"><span>✨ Віск</span><button onclick="start('Віск')">▶</button></div>
-    <p id="timerDisplay"></p>
+    <h2>Мийка запущена</h2>
+    <p id="washInfo"></p>
+    <p id="timer"></p>
+
     <button class="btn green" onclick="finish()">Завершити</button>
-    <button class="btn" onclick="backPosts()">Назад</button>
   </div>
 </div>
 
 <!-- ADMIN -->
-<div class="container hidden fade" id="admin">
+<div class="container hidden" id="admin">
   <div class="card">
-    <h2>Режим адміністратора</h2>
-    <p>Активних постів: <span id="activePosts">0</span></p>
-    <p>Зароблено сьогодні: <span id="earnings">0</span> грн</p>
-    <button class="btn" onclick="backHome()">Назад</button>
+    <h2>Адмін-панель</h2>
+    <p>Сьогодні клієнтів: <b id="clients">0</b></p>
+    <p>Дохід: <b id="income">0</b> грн</p>
+    <button class="btn gray" onclick="goHome()">Назад</button>
   </div>
 </div>
 
 <script>
-let activeTheme = 'light';
-let washTimer;
-let earnings = 0;
-let activePosts = 0;
-
-function toggleTheme(){
-  if(activeTheme==='light'){
-    document.body.style.background='#0f172a';
-    document.body.style.color='#f4f6fb';
-    document.querySelectorAll('.card').forEach(c=>c.style.background='#1e293b');
-    activeTheme='dark';
-  }else{
-    document.body.style.background='#f4f6fb';
-    document.body.style.color='#0f172a';
-    document.querySelectorAll('.card').forEach(c=>c.style.background='#fff');
-    activeTheme='light';
-  }
-}
+let selectedPackage="", selectedPrice=0;
+let income=0, clients=0;
+let seconds=0, timerInterval;
 
 function hideAll(){
-  ['home','posts','wash','admin'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+  ['home','packages','payment','wash','admin'].forEach(id=>{
+    document.getElementById(id).classList.add('hidden');
+  });
 }
 
-function openPosts(){
-  hideAll(); document.getElementById('posts').classList.remove('hidden');
-}
-function backHome(){ hideAll(); document.getElementById('home').classList.remove('hidden'); }
-function backPosts(){ hideAll(); document.getElementById('posts').classList.remove('hidden'); }
+function goHome(){ hideAll(); home.classList.remove('hidden'); }
 
-function openWash(n){
-  hideAll(); 
-  document.getElementById('postTitle').innerText='Пост №'+n;
-  document.getElementById('wash').classList.remove('hidden');
-  activePosts++;
-  document.getElementById('activePosts').innerText=activePosts;
-  document.getElementById('timerDisplay').innerText='';
-  clearInterval(washTimer);
+function openPackages(){ hideAll(); packages.classList.remove('hidden'); }
+
+function pay(pkg,price){
+  selectedPackage=pkg;
+  selectedPrice=price;
+  paymentInfo.innerText=`Пакет: ${pkg} • Сума: ${price} грн`;
+  hideAll(); payment.classList.remove('hidden');
 }
 
-function start(program){
-  clearInterval(washTimer);
-  let seconds=0;
-  document.getElementById('timerDisplay').innerText='Запущено '+program+' | 0 хв 0 сек';
-  washTimer=setInterval(()=>{
+function confirmPay(){
+  income+=selectedPrice;
+  clients++;
+  document.getElementById('income').innerText=income;
+  document.getElementById('clients').innerText=clients;
+  startWash();
+}
+
+function startWash(){
+  seconds=0;
+  washInfo.innerText=`Пакет ${selectedPackage} активний`;
+  hideAll(); wash.classList.remove('hidden');
+  timerInterval=setInterval(()=>{
     seconds++;
-    let m=Math.floor(seconds/60), s=seconds%60;
-    document.getElementById('timerDisplay').innerText=`Запущено ${program} | ${m} хв ${s} сек`;
+    timer.innerText=`Час мийки: ${seconds} сек`;
   },1000);
-  earnings += (program==='Вода'?10:(program==='Піна'?15:20));
-  document.getElementById('earnings').innerText=earnings;
 }
 
 function finish(){
-  clearInterval(washTimer);
-  alert('Мийку завершено');
-  backHome();
+  clearInterval(timerInterval);
+  alert('Мийку завершено. Дякуємо!');
+  goHome();
 }
 
-function admin(){
-  const code = prompt('Введіть адмін-код');
+function openAdmin(){
+  const code=prompt('Введіть адмін-код');
   if(code==='1234321'){
-    hideAll();
-    document.getElementById('admin').classList.remove('hidden');
+    hideAll(); admin.classList.remove('hidden');
   }else{
     alert('Невірний код');
   }
 }
 </script>
+
 </body>
 </html>

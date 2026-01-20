@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<title>AutoWash — Самообслуговування</title>
+<title>AutoWash Demo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,80 +10,53 @@
   --bg:#f6f8fc;
   --card:#ffffff;
   --primary:#2563eb;
-  --accent:#22c55e;
+  --success:#22c55e;
+  --danger:#ef4444;
   --text:#0f172a;
   --muted:#64748b;
   --radius:18px;
 }
 
 *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-}
+body{margin:0;background:var(--bg);color:var(--text)}
 
 header{
+  background:#0f172a;color:white;
   padding:16px 20px;
-  background:#0f172a;
-  color:white;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  display:flex;justify-content:space-between;align-items:center
 }
 
-header b{font-size:18px}
-header button{
-  background:none;
-  border:1px solid #334155;
-  color:white;
-  padding:6px 14px;
-  border-radius:12px;
-}
-
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:20px;
-}
+.container{max-width:420px;margin:auto;padding:20px}
 
 .card{
   background:var(--card);
-  border-radius:var(--radius);
   padding:20px;
-  margin-bottom:16px;
+  border-radius:var(--radius);
   box-shadow:0 16px 32px rgba(0,0,0,.08);
-  animation:fade .35s ease;
+  margin-bottom:16px;
+  animation:fade .3s ease;
 }
 
-h2{margin:0 0 10px}
-p{margin:0 0 8px;color:var(--muted);font-size:14px}
-
-.btn{
-  width:100%;
-  padding:14px;
+input{
+  width:100%;padding:14px;
   border-radius:14px;
-  border:none;
-  background:var(--primary);
-  color:white;
-  font-size:15px;
-  margin-top:10px;
-}
-
-.btn.green{background:var(--accent)}
-.btn.gray{background:#e5e7eb;color:#0f172a}
-
-.hidden{display:none}
-
-.package{
   border:1px solid #e5e7eb;
-  border-radius:14px;
-  padding:14px;
   margin-bottom:10px;
 }
 
-.package b{display:block;margin-bottom:6px}
+button{
+  width:100%;padding:14px;
+  border:none;border-radius:14px;
+  background:var(--primary);
+  color:white;font-size:15px;
+  margin-bottom:8px;
+}
+
+button.success{background:var(--success)}
+button.danger{background:var(--danger)}
+button.gray{background:#e5e7eb;color:#0f172a}
+
+.hidden{display:none}
 
 @keyframes fade{
   from{opacity:0;transform:translateY(10px)}
@@ -94,138 +67,173 @@ p{margin:0 0 8px;color:var(--muted);font-size:14px}
 
 <body>
 
-<header>
+<header class="hidden" id="topbar">
   <b>🚗 AutoWash</b>
-  <button onclick="openAdmin()">Admin</button>
+  <button class="gray" onclick="logout()">Вийти</button>
 </header>
 
-<!-- HOME -->
-<div class="container" id="home">
+<!-- AUTH -->
+<div class="container" id="auth">
   <div class="card">
-    <h2>Автомийка самообслуговування</h2>
-    <p>Швидко • Зручно • Без черг</p>
-    <button class="btn" onclick="openPackages()">Почати мийку</button>
-  </div>
-
-  <div class="card">
-    <h2>Пакети мийки</h2>
-
-    <div class="package">
-      <b>💦 Basic — 50 грн</b>
-      <p>Вода • Піна • 5 хв</p>
-    </div>
-
-    <div class="package">
-      <b>🧼 Standard — 80 грн</b>
-      <p>Піна • Вода • Віск • 8 хв</p>
-    </div>
-
-    <div class="package">
-      <b>✨ Premium — 120 грн</b>
-      <p>Активна піна • Віск • Сушка • 12 хв</p>
-    </div>
+    <h2>Вхід</h2>
+    <input id="phone" placeholder="+380XXXXXXXXX">
+    <button onclick="sendSMS()">Продовжити</button>
+    <p style="font-size:12px;color:var(--muted)">DEMO-версія</p>
   </div>
 </div>
 
-<!-- PACKAGES -->
-<div class="container hidden" id="packages">
+<!-- SMS -->
+<div class="container hidden" id="sms">
   <div class="card">
-    <h2>Оберіть пакет</h2>
-
-    <button class="btn" onclick="pay('Basic',50)">💦 Basic — 50 грн</button>
-    <button class="btn" onclick="pay('Standard',80)">🧼 Standard — 80 грн</button>
-    <button class="btn" onclick="pay('Premium',120)">✨ Premium — 120 грн</button>
-
-    <button class="btn gray" onclick="goHome()">Назад</button>
+    <h3>Підтвердження</h3>
+    <p id="demoSMS"></p>
+    <input id="code" placeholder="SMS-код">
+    <button class="success" onclick="verifySMS()">Підтвердити</button>
   </div>
 </div>
 
-<!-- PAYMENT -->
-<div class="container hidden" id="payment">
+<!-- USER -->
+<div class="container hidden" id="user">
   <div class="card">
-    <h2>Оплата</h2>
-    <p id="paymentInfo"></p>
+    <h2>Підписки</h2>
 
-    <button class="btn green" onclick="confirmPay()">Оплатити (симуляція)</button>
-    <button class="btn gray" onclick="goHome()">Скасувати</button>
+    <div class="card">
+      <b>🟢 Тижнева</b>
+      <p>199 грн</p>
+      <button onclick="buy('week')">Купити</button>
+    </div>
+
+    <div class="card">
+      <b>🔵 Місячна</b>
+      <p>599 грн</p>
+      <button onclick="buy('month')">Купити</button>
+    </div>
   </div>
-</div>
 
-<!-- WASH -->
-<div class="container hidden" id="wash">
-  <div class="card">
-    <h2>Мийка запущена</h2>
-    <p id="washInfo"></p>
-    <p id="timer"></p>
-
-    <button class="btn green" onclick="finish()">Завершити</button>
+  <div class="card hidden" id="qrBlock">
+    <h3>Ваш QR-код</h3>
+    <img id="qrImg">
+    <p style="font-size:12px;color:var(--muted)">Покажіть QR на автомийці</p>
   </div>
 </div>
 
 <!-- ADMIN -->
 <div class="container hidden" id="admin">
   <div class="card">
-    <h2>Адмін-панель</h2>
-    <p>Сьогодні клієнтів: <b id="clients">0</b></p>
-    <p>Дохід: <b id="income">0</b> грн</p>
-    <button class="btn gray" onclick="goHome()">Назад</button>
+    <h2>🔐 Адмін панель</h2>
+    <p>Користувачів: <b id="adminUsers"></b></p>
+    <p>Підписок: <b id="adminSubs"></b></p>
+  </div>
+
+  <div class="card">
+    <h3>Керування підпискою</h3>
+    <input id="qrInput" placeholder="QR-код">
+    <button onclick="findSub()">Знайти</button>
+
+    <div id="subControl" class="hidden">
+      <p id="subInfo"></p>
+      <button class="gray" onclick="pauseSub()">⏸ Пауза 1 день</button>
+      <button class="danger" onclick="disableSub()">❌ Деактивувати</button>
+      <button class="success" onclick="activateSub()">▶️ Активувати</button>
+    </div>
   </div>
 </div>
 
 <script>
-let selectedPackage="", selectedPrice=0;
-let income=0, clients=0;
-let seconds=0, timerInterval;
+let smsCode="", currentPhone="", currentSubIndex=null;
 
 function hideAll(){
-  ['home','packages','payment','wash','admin'].forEach(id=>{
-    document.getElementById(id).classList.add('hidden');
-  });
+  ['auth','sms','user','admin'].forEach(id=>document.getElementById(id).classList.add('hidden'));
 }
 
-function goHome(){ hideAll(); home.classList.remove('hidden'); }
+function sendSMS(){
+  const phone=document.getElementById('phone').value.trim();
 
-function openPackages(){ hideAll(); packages.classList.remove('hidden'); }
+  if(phone==="1234321"){ openAdmin(); return; }
 
-function pay(pkg,price){
-  selectedPackage=pkg;
-  selectedPrice=price;
-  paymentInfo.innerText=`Пакет: ${pkg} • Сума: ${price} грн`;
-  hideAll(); payment.classList.remove('hidden');
+  if(phone.length<6){ alert("Некоректний номер"); return; }
+
+  currentPhone=phone;
+  smsCode=Math.floor(1000+Math.random()*9000).toString();
+  demoSMS.innerText="📩 DEMO SMS: "+smsCode;
+
+  hideAll(); sms.classList.remove('hidden');
 }
 
-function confirmPay(){
-  income+=selectedPrice;
-  clients++;
-  document.getElementById('income').innerText=income;
-  document.getElementById('clients').innerText=clients;
-  startWash();
+function verifySMS(){
+  if(code.value!==smsCode){ alert("Невірний код"); return; }
+
+  const users=JSON.parse(localStorage.getItem("users")||"[]");
+  if(!users.includes(currentPhone)){
+    users.push(currentPhone);
+    localStorage.setItem("users",JSON.stringify(users));
+  }
+
+  localStorage.setItem("session",currentPhone);
+  showUser();
 }
 
-function startWash(){
-  seconds=0;
-  washInfo.innerText=`Пакет ${selectedPackage} активний`;
-  hideAll(); wash.classList.remove('hidden');
-  timerInterval=setInterval(()=>{
-    seconds++;
-    timer.innerText=`Час мийки: ${seconds} сек`;
-  },1000);
+function showUser(){
+  hideAll();
+  topbar.classList.remove('hidden');
+  user.classList.remove('hidden');
 }
 
-function finish(){
-  clearInterval(timerInterval);
-  alert('Мийку завершено. Дякуємо!');
-  goHome();
+function buy(type){
+  alert("Оплата успішна (DEMO)");
+
+  const phone=localStorage.getItem("session");
+  const subs=JSON.parse(localStorage.getItem("subs")||"[]");
+
+  const qr=`AUTOWASH|${phone}|${type}`;
+  subs.push({phone,type,qr,status:"active",pauseUntil:null});
+  localStorage.setItem("subs",JSON.stringify(subs));
+
+  qrImg.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(qr);
+  qrBlock.classList.remove("hidden");
 }
 
 function openAdmin(){
-  const code=prompt('Введіть адмін-код');
-  if(code==='1234321'){
-    hideAll(); admin.classList.remove('hidden');
-  }else{
-    alert('Невірний код');
-  }
+  hideAll();
+  topbar.classList.remove('hidden');
+  admin.classList.remove('hidden');
+
+  adminUsers.innerText=(JSON.parse(localStorage.getItem("users")||"[]")).length;
+  adminSubs.innerText=(JSON.parse(localStorage.getItem("subs")||"[]")).length;
 }
+
+function findSub(){
+  const qr=qrInput.value.trim();
+  const subs=JSON.parse(localStorage.getItem("subs")||"[]");
+
+  const i=subs.findIndex(s=>s.qr===qr);
+  if(i===-1){ alert("Не знайдено"); return; }
+
+  currentSubIndex=i;
+  const s=subs[i];
+  subInfo.innerHTML=`Телефон: <b>${s.phone}</b><br>Тип: <b>${s.type}</b><br>Статус: <b>${s.status}</b>`;
+  subControl.classList.remove("hidden");
+}
+
+function updateSub(status,days=null){
+  const subs=JSON.parse(localStorage.getItem("subs")||"[]");
+  subs[currentSubIndex].status=status;
+  subs[currentSubIndex].pauseUntil=days?Date.now()+days*86400000:null;
+  localStorage.setItem("subs",JSON.stringify(subs));
+  alert("Оновлено");
+}
+
+function pauseSub(){updateSub("paused",1)}
+function disableSub(){updateSub("disabled")}
+function activateSub(){updateSub("active")}
+
+function logout(){
+  localStorage.removeItem("session");
+  location.reload();
+}
+
+const session=localStorage.getItem("session");
+if(session) showUser();
 </script>
 
 </body>

@@ -68,7 +68,7 @@ app.post("/create-payment",(req,res)=>{
     description:"Підписка Cleango",
     order_id:Date.now().toString(),
     sandbox:1,
-    server_url:"https://ТВОЄ-URL.onrender.com/payment-callback",
+    server_url:"https://cleango-server.onrender.com/payment-callback",
     metadata:{email}
   })).toString("base64");
 
